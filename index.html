@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <title>document</title>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-4 mt-4" id="result"></div>
+       
+            <div class="col-4   border border-3 shadow-sm border-dark h-25 w-25 mt-5  p-5 bg-light">
+                <div class=" mt-5 " style="width: 18rem; ">
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input id="country" placeholder="Enter country name" type="text"><br><br>
+                    <button class="btn-primary w-25 " style="margin-left: 80px;" onclick="searchData()">Search</button>
+                </div>
+            </div>
+        
+        <div class="col-4 mt-4" id="imgs"></div>
+    </div>
+
+
+    <script>
+        function searchData() {
+            var countryName = country.value
+            console.log(countryName);
+            fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
+                .then(res => res.json())
+                .then(data => displayData(data))
+                .catch(error => {
+                    alert('Failed to fetch country details')
+                })
+        }
+        function displayData(data) {
+            capital = data[0].capital
+            flags = data[0].flags.png
+            name = data[0].name.common
+            content = data[0].flags.alt
+            currencies = data[0].currencies.symbol
+            region = data[0].region
+            pop = data[0].population
+            coatOfArms = data[0].coatOfArms.png
+            htmlData = `<div class="card" style="width:18rem;">
+                    <img src="${flags}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">${name}</h5>
+                        <p class="card-text">${content}</p>
+                        </div>
+                        <ul class="list-group item-group-flush" style="width:18rem">
+                            <li class="list-group-item"><b>Capital:${capital}</b></li>
+                            <li class="list-group-item"><b>currencies:${currencies}</b></li>
+                            <li class="list-group-item"><b>region:${region}</li>
+                            <li class="list-group-item"><b>Population:</b> ${pop}</li>
+                            </ul>
+                            </div>`
+            result.innerHTML += htmlData
+            htmlDat = `<div  class="ms-5">
+                            <img class="card-img-top" alt="..." style="height:530px; width:340px; " src="${coatOfArms}">
+                            </div>`
+
+            imgs.innerHTML += htmlDat
+
+        }
+    </script>
+    </div>
+</body>
+
+</html>
